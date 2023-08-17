@@ -53,5 +53,44 @@ def k_knight(p):
             result += 1
     return result
 
+def __is_prime__(n): # for -if for -if 일 경우 함수로 분리
+    if n < 2 : return False
+    for i in range(2,int(n**0.5)+1) :
+        if n % i == 0 : return False
+    return True
+
+def find_primes(numbers):
+    from itertools import permutations
+    num = []
+    result = []
+    list_numbers = list(numbers)
+    
+    for i in range(1,len(list_numbers)+1) :
+        num.append(list(permutations(numbers,i)))
+
+    # 리스트 컴프리헨시브가 for문보다 30% 빠름
+    ## 이중 for문 넣을 때 그대로 넣기
+    num = [int("".join(j)) for i in num for j in i]
+    result = [ n for n in num if __is_prime__(n)]
+
+    return len(set(result))
+
+# permutation
+def per(lst) :
+    # 선행 종료 조건
+    if len(lst) == 0 : return []
+    if len(lst) == 1 : return [lst]
+    
+    l =[]
+    for i in range(len(lst)):
+        m = lst[i]
+        rem_lst = lst[:i] + lst[i+1:]
+        for p in per(rem_lst):
+            l.append([m]+p) # 재귀?
+    return l
+
 if __name__ == "__main__" :
+    print(per([0,1,1]))
     pass
+
+# !!! 파이썬 콜렉션 !!!
